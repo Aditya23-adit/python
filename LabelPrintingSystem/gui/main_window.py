@@ -1,4 +1,6 @@
 from PySide6.QtWidgets import QMainWindow
+from PySide6.QtCore import QUrl
+from PySide6.QtGui import QDesktopServices
 
 from gui.layouts import MainLayout
 from gui.styles import APP_STYLE
@@ -10,6 +12,12 @@ from gui.components.status_components import StatusComponent
 
 from PySide6.QtWidgets import QFileDialog, QTableWidgetItem
 from excel_import import import_excel
+
+from label.models.label_repository import LabelRepository
+from printing.template_engine import TemplateEngine
+from printing.pdf_generator import PdfGenerator
+from printing.zpl_generator import ZplGenerator
+
 
 class MainWindow(QMainWindow):
 
@@ -64,6 +72,8 @@ class MainWindow(QMainWindow):
         
         self.buttons.btn_import.clicked.connect(self.import_excel)
 
+        self.print_panel.btn_preview.clicked.connect(self.preview_label)
+
     ####################################################
     # EVENT
     ####################################################
@@ -112,4 +122,47 @@ class MainWindow(QMainWindow):
 
         self.status.showMessage(
             f"{len(rows)} data berhasil diimport."
+        )
+
+    def preview_label(self):
+
+        labels = LabelRepository.get_labels(self.table)
+
+        if not labels:
+            self.status.showMessage(
+                "Tidak ada data untuk preview."
+            )
+            return
+
+        # Ambil label pertama
+        label = labels[0]
+
+        # ==============================
+        # GENERATE ZPL
+        # ==============================
+
+        zpl_generator = ZplGenerator()
+
+        zpl = zpl_generator.generate(label)
+
+        # ==============================
+        # GENERATE PDF
+        # ==============================
+
+        pdf_generator = PdfGenerator()
+
+        pdf_file = pdf_generator.create(label)
+
+        # ==============================
+        # OPEN PDF
+        # ==============================
+
+        QDesktopServices.openUrl(
+            QUrl.fromLocalFile(
+                str(pdf_file)
+            )
+        )
+
+        self.status.showMessage(
+            "Preview label berhasil dibuat."
         )
