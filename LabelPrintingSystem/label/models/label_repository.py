@@ -31,7 +31,8 @@ class LabelRepository:
                 lot_number=lot_number.text() if lot_number else "",
                 receive_date=receive_date.text() if receive_date else "",
                 expired_date=expired_date.text() if expired_date else "",
-                qty=int(qty.text()) if qty and qty.text() else 0,
+                #qty=int(qty.text()) if qty and qty.text() else 0,
+                qty=qty.text() if qty else "0",
                 production_month=production_month.text() if production_month else "",
                 copy=int(copy.text()) if copy and copy.text() else 1
             )

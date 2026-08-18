@@ -1,56 +1,191 @@
 from PySide6.QtWidgets import (
     QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
     QLabel,
-    QPushButton,
     QComboBox,
     QCheckBox,
-    QHBoxLayout
+    QPushButton
 )
+
+from PySide6.QtPrintSupport import QPrinterInfo
 
 
 class PrintComponent(QWidget):
 
     def __init__(self):
+
         super().__init__()
 
-        self.setup_ui()
+        # ==================================================
+        # TEMPLATE
+        # ==================================================
 
-    def setup_ui(self):
+        self.lbl_template = QLabel(
+            "Template:"
+        )
 
-        layout = QHBoxLayout(self)
+        self.cmb_template = QComboBox()
+
+        self.btn_import_template = QPushButton(
+            "Import Template"
+        )
+
+        # ==================================================
+        # PRINTER
+        # ==================================================
+
+        self.lbl_printer = QLabel(
+            "Printer:"
+        )
 
         self.cmb_printer = QComboBox()
 
-        self.chk_preview = QCheckBox(
-            "Preview sebelum print"
+        # Load printer
+        self.load_printers()
+
+        # ==================================================
+        # PREVIEW
+        # ==================================================
+
+        #self.chk_preview = QCheckBox(
+        #    "Preview sebelum print"
+        #)
+
+        # ==================================================
+        # TOTAL
+        # ==================================================
+
+        #self.lbl_total_data = QLabel(
+        #    "Total Data: 0"
+        #)
+
+        #self.lbl_total_label = QLabel(
+        #    "Total Label: 0"
+        #)
+
+        # ==================================================
+        # BUTTON
+        # ==================================================
+
+        self.btn_preview = QPushButton(
+            "Preview"
         )
 
-        self.lbl_total_data = QLabel(
-            "Total Data : 0"
+        self.btn_print = QPushButton(
+            "Print"
         )
 
-        self.lbl_total_label = QLabel(
-            "Total Label : 0"
+        # ==================================================
+        # MAIN LAYOUT
+        # ==================================================
+
+        layout = QVBoxLayout()
+
+        # ==================================================
+        # TEMPLATE
+        # ==================================================
+
+        template_layout = QHBoxLayout()
+
+        template_layout.addWidget(
+            self.lbl_template
         )
 
-        self.btn_preview = QPushButton("Preview")
+        template_layout.addWidget(
+            self.cmb_template
+        )
 
-        self.btn_print = QPushButton("Print")
+        template_layout.addWidget(
+            self.btn_import_template
+        )
 
-        layout.addWidget(QLabel("Printer"))
+        layout.addLayout(
+            template_layout
+        )
 
-        layout.addWidget(self.cmb_printer)
+        # ==================================================
+        # PRINTER
+        # ==================================================
 
-        layout.addWidget(self.chk_preview)
+        printer_layout = QHBoxLayout()
 
-        layout.addStretch()
+        printer_layout.addWidget(
+            self.lbl_printer
+        )
 
-        layout.addWidget(self.lbl_total_data)
+        printer_layout.addWidget(
+            self.cmb_printer
+        )
 
-        layout.addWidget(self.lbl_total_label)
+        layout.addLayout(
+            printer_layout
+        )
 
-        layout.addSpacing(20)
+        # ==================================================
+        # TOTAL
+        # ==================================================
 
-        layout.addWidget(self.btn_preview)
+        #layout.addWidget(
+        #    self.lbl_total_data
+        #)
 
-        layout.addWidget(self.btn_print)
+        #layout.addWidget(
+        #    self.lbl_total_label
+        #)
+
+        # ==================================================
+        # PREVIEW
+        # ==================================================
+
+        #layout.addWidget(
+        #    self.chk_preview
+        #)
+
+        # ==================================================
+        # BUTTON
+        # ==================================================
+
+        button_layout = QHBoxLayout()
+
+        button_layout.addWidget(
+            self.btn_preview
+        )
+
+        button_layout.addWidget(
+            self.btn_print
+        )
+
+        layout.addLayout(
+            button_layout
+        )
+
+        self.setLayout(
+            layout
+        )
+
+    # ==================================================
+    # LOAD PRINTERS
+    # ==================================================
+
+    def load_printers(self):
+
+        self.cmb_printer.clear()
+
+        printers = QPrinterInfo.availablePrinters()
+
+        for printer in printers:
+
+            self.cmb_printer.addItem(
+                printer.printerName()
+            )
+
+        # ==================================================
+        # NO PRINTER
+        # ==================================================
+
+        if not printers:
+
+            self.cmb_printer.addItem(
+                "Tidak ada printer"
+            )
