@@ -27,6 +27,16 @@ class TableComponent(QTableWidget):
             "Production Month",
             "Copy"
         ])
+        # Default column width
+        self.setColumnWidth(0, 250)
+        self.setColumnWidth(1, 250)
+        self.setColumnWidth(2, 130)
+        self.setColumnWidth(3, 130)
+        self.setColumnWidth(4, 120)
+        self.setColumnWidth(5, 120)
+        self.setColumnWidth(6, 60)
+        self.setColumnWidth(7, 120)
+        self.setColumnWidth(8, 60)
 
         self.setRowCount(15)
 

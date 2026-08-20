@@ -31,15 +31,13 @@ class ButtonComponent(QWidget):
 
         layout = QHBoxLayout(self)
 
-        self.btn_add = QPushButton("Tambah")
-        self.btn_delete = QPushButton("Hapus")
-        self.btn_paste = QPushButton("Paste")
+        self.btn_add = QPushButton("Add")
+        self.btn_delete = QPushButton("Delete")
         self.btn_import = QPushButton("Import Excel")
         self.btn_clear = QPushButton("Clear")
 
         layout.addWidget(self.btn_add)
         layout.addWidget(self.btn_delete)
-        layout.addWidget(self.btn_paste)
         layout.addWidget(self.btn_import)
         layout.addWidget(self.btn_clear)
 
