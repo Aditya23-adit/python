@@ -1,23 +1,16 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+
 a = Analysis(
     ['main.py'],
     pathex=[],
-
-    binaries=[
-        (
-            'tools/SumatraPDF-3.6.1-64.exe',
-            'tools'
-        )
-    ],
-
+    binaries=[('tools/SumatraPDF-3.6.1-64.exe', 'tools')],
     datas=[
         (
-            'label/assets',
-            'label/assets'
-        )
+            "label/assets",
+            "label/assets"
+),
     ],
-
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -26,17 +19,13 @@ a = Analysis(
     noarchive=False,
     optimize=0,
 )
-
-pyz = PYZ(
-    a.pure
-)
+pyz = PYZ(a.pure)
 
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries,
-    a.datas,
     [],
+    exclude_binaries=True,
     name='STJ Material Label 10x10',
     debug=False,
     bootloader_ignore_signals=False,
@@ -48,4 +37,13 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+)
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.datas,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    name='STJ Material Label 10x10',
 )

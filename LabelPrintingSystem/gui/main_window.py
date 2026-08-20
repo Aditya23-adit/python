@@ -23,6 +23,8 @@ from printing.pdf_generator import PdfGenerator
 from printing.pdf_printer import PdfPrinter
 from printing.template_manager import TemplateManager
 
+from config import APP_NAME, APP_VERSION
+
 
 class MainWindow(QMainWindow):
 
@@ -55,7 +57,9 @@ class MainWindow(QMainWindow):
         )
 
         self.setWindowIcon(QIcon(str(logo)))
-        self.setWindowTitle("STJ LABEL PRINTER 10 x 10")
+        self.setWindowTitle(
+            f"{APP_NAME} - v{APP_VERSION}"
+            )
         self.resize(1400, 750)
 
     # ==================================================
